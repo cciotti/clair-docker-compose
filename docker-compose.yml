@@ -7,8 +7,17 @@ clair:
     - 6061:6061
   volumes:
     - ./config:/config
+    - /tmp
   command:
     - -config=/config/config.yaml
+
+analyze-local-images:
+  build: .
+  net: container:clair
+  volumes_from:
+    - clair
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
 
 postgres:
   image: postgres:9.4
